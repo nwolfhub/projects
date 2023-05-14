@@ -16,9 +16,7 @@ public class HibernateController {
     @Autowired
     private Properties properties;
 
-    public HibernateController(Properties properties) {
-        this.properties = properties;
-    }
+    public HibernateController() {}
 
 
     public SessionFactory getSessionFactory() {
