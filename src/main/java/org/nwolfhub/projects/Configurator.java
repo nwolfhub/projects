@@ -67,4 +67,8 @@ public class Configurator {
     public static HibernateController getHibernateController() {
         return new HibernateController();
     }
+
+    public static String getEntry(String key) {
+        return configurator.getValue(key);
+    }
 }
