@@ -6,6 +6,8 @@ import org.nwolfhub.projects.database.model.Project;
 import org.nwolfhub.projects.database.model.Tag;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
+
 public class ObjectDao {
     private HibernateController controller;
 
@@ -31,6 +33,20 @@ public class ObjectDao {
         session.close();
         return tag;
     }
+
+    public List<Project> getProjects() {
+        Session session = controller.getSessionFactory().openSession();
+        List<Project> toReturn = session.createQuery("from Project").stream().toList();
+        session.close();
+        return toReturn;
+    }
+    public List<Tag> getTags() {
+        Session session = controller.getSessionFactory().openSession();
+        List<Tag> toReturn = session.createQuery("from Tag").stream().toList();
+        session.close();
+        return toReturn;
+    }
+
     public ObjectDao(AnnotationConfigApplicationContext context) {
         controller = context.getBean(HibernateController.class);
     }

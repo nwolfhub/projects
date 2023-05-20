@@ -14,6 +14,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class ProjectsApplication {
 	public static EasyCLI cli;
+	public static AnnotationConfigApplicationContext context;
 
 	public static void main(String[] args) {
 		cli = new EasyCLI();
@@ -35,6 +36,7 @@ public class ProjectsApplication {
 		Configurator.init();
 		cli.print("Config check passed. Entries parsed: " + Configurator.getEntriesAmount());
 		SpringApplication.run(ProjectsApplication.class, args);
+		context = new AnnotationConfigApplicationContext(Configurator.class);
 	}
 
 }
