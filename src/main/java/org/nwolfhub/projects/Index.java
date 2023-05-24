@@ -43,6 +43,7 @@ public class Index extends AppLayout {
             grid.addColumn(Project::getName).setHeader("Title");
             grid.addColumn(Project::getShortDescription).setHeader("Description");
             grid.setItems(projects);
+            grid.setItemDetailsRenderer(ProjectRenderer.createRenderer());
             setContent(grid);
         }
     }
