@@ -6,6 +6,9 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.progressbar.ProgressBar;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasDynamicTitle;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import org.nwolfhub.projects.database.HibernateController;
 import org.nwolfhub.projects.database.ObjectDao;
@@ -14,7 +17,7 @@ import org.nwolfhub.projects.database.model.Project;
 import java.util.List;
 
 @Route("/")
-public class Index extends AppLayout {
+public class Index extends AppLayout implements HasDynamicTitle{
     public Index() {
         H1 title = new H1(Configurator.getEntry("website_name"));
         title.getStyle().set("font-size", "14px").set("margin", "5px");
@@ -46,5 +49,10 @@ public class Index extends AppLayout {
             grid.setItemDetailsRenderer(ProjectRenderer.createRenderer());
             setContent(grid);
         }
+    }
+
+    @Override
+    public String getPageTitle() {
+        return Configurator.getEntry("website_name");
     }
 }

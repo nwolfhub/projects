@@ -25,7 +25,7 @@ public class ProjectRenderer extends FormLayout {
     public void setProject(Project p) {
         projectId.setText(p.getId().toString());
         shortDescription.setValue(p.getShortDescription());
-        viewProject.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> UI.getCurrent().access(() -> UI.getCurrent().getPage().setLocation("projects/" + p.getId())));
+        viewProject.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> UI.getCurrent().access(() -> UI.getCurrent().getPage().setLocation("project/" + p.getId())));
     }
     public static ComponentRenderer<ProjectRenderer, Project> createRenderer() {
         return new ComponentRenderer<>(ProjectRenderer::new, ProjectRenderer::setProject);
