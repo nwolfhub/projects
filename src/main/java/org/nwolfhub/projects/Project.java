@@ -17,6 +17,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.Command;
 import org.nwolfhub.projects.database.HibernateController;
 import org.nwolfhub.projects.database.ObjectDao;
+import org.nwolfhub.projects.database.model.Tag;
+
+import java.util.List;
 
 @Route("/project")
 public class Project extends AppLayout implements HasDynamicTitle, HasUrlParameter<String> {
@@ -54,6 +57,7 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
             setContent(loadingDiv);
             ObjectDao dao = new ObjectDao(ProjectsApplication.context.getBean("hibernateController", HibernateController.class));
             org.nwolfhub.projects.database.model.Project project = dao.getProject(id);
+            List<Tag> tags = TagRenderer.getTags(project, dao);
             Div mainDiv = new Div();
             VerticalLayout centeredBox = new VerticalLayout();
             Label projectName = new Label(project.getName());
@@ -66,11 +70,17 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
             Label descriptionLabel = new Label(project.getDescription());
             descriptionLabel.getStyle().set("max-width", "70%").set("word-wrap", "break-word");
             layout.add(descriptionLabel);
-            divider.getStyle().set("margin-left", "auto").set("margin-right", "0");
+            divider.getStyle().set("margin-left", "auto").set("margin-right", "0").set("background-color", "black").set("max-width", "1px");
             layout.add(divider);
+            VerticalLayout tagsLayout = TagRenderer.renderTags(tags);
+            tagsLayout.getStyle().set("max-width", "30%");
+            tagsLayout.setAlignItems(FlexComponent.Alignment.START);
+            layout.add(tagsLayout);
             mainDiv.add(layout);
             setContent(mainDiv);
         } catch (NumberFormatException e) {
+            UI.getCurrent().access(() -> UI.getCurrent().getPage().setLocation("/"));
+        } catch (Exception e) {
             e.printStackTrace();
             UI.getCurrent().access(() -> UI.getCurrent().getPage().setLocation("/"));
         }
