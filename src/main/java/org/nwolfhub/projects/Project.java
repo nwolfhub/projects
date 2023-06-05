@@ -81,8 +81,8 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
         } catch (NumberFormatException e) {
             UI.getCurrent().access(() -> UI.getCurrent().getPage().setLocation("/"));
         } catch (Exception e) {
-            e.printStackTrace();
-            UI.getCurrent().access(() -> UI.getCurrent().getPage().setLocation("/"));
+            Integer errorId = Error.addError(e.toString());
+            getUI().get().access((Command) () -> UI.getCurrent().getPage().setLocation("/error/" + errorId));
         }
     }
     public static class HorizontalDivider extends Span {
