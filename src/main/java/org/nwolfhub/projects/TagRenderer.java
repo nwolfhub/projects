@@ -16,7 +16,7 @@ public class TagRenderer {
         VerticalLayout layout = new VerticalLayout();
         for(Tag tag:tags) {
             Span span = new Span(tag.getText());
-            span.getStyle().set("background-color", tag.getColor());
+            span.getStyle().set("background-color", tag.getColor()).set("color", "white");
             layout.add(span);
         }
         return layout;
