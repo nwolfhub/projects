@@ -14,7 +14,7 @@ import java.util.Properties;
 
 @Configuration
 public class Configurator {
-    private static org.nwolfhub.utils.Configurator configurator;
+    private static final org.nwolfhub.utils.Configurator configurator = new org.nwolfhub.utils.Configurator(false, new File("projects.cfg"));;
 
     public static File createDemoConfig() throws IOException {
         File configFile = new File("projects.cfg");
@@ -42,7 +42,6 @@ public class Configurator {
         return configurator.getEntriesAmount();
     }
     public static void init() {
-        configurator = new org.nwolfhub.utils.Configurator(false, new File("projects.cfg"));
     }
     @Bean
     @Primary
