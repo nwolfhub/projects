@@ -5,6 +5,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -44,7 +45,9 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
             UI.getCurrent().access((Command) () -> UI.getCurrent().getPage().setLocation("/"));
         });
         addToNavbar(title);
+        //title part finished
         try {
+            //just loading project, don't really mind this part
             Integer id = Integer.valueOf(projectId);
             ProgressBar loadingBar = new ProgressBar();
             loadingBar.setIndeterminate(true);
@@ -55,9 +58,10 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
             progressBarLabel.getStyle().set("margin-left", "auto").set("margin-right", "auto").set("vertical-align", "middle");
             loadingDiv.add(progressBarLabel, loadingBar);
             setContent(loadingDiv);
+            //okay, mind this part
             ObjectDao dao = new ObjectDao(ProjectsApplication.context.getBean("hibernateController", HibernateController.class));
             org.nwolfhub.projects.database.model.Project project = dao.getProject(id);
-            List<Tag> tags = TagRenderer.getTags(project, dao);
+            List<Tag> tags = TagRenderer.getTags(project, dao); //get tags from db
             Div mainDiv = new Div();
             VerticalLayout centeredBox = new VerticalLayout();
             Label projectName = new Label(project.getName());
@@ -67,7 +71,7 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
             mainDiv.add(centeredBox);
             HorizontalLayout layout = new HorizontalLayout();
             VerticalDivider divider = new VerticalDivider();
-            Label descriptionLabel = new Label(project.getDescription());
+            Label descriptionLabel = new Label(project.getDescription()); // TODO: 08.06.2023 add support for new lines. Im gonna freaking struggle without them
             descriptionLabel.getStyle().set("max-width", "70%").set("word-wrap", "break-word");
             layout.add(descriptionLabel);
             divider.getStyle().set("margin-left", "auto").set("margin-right", "0").set("background-color", "black").set("max-width", "1px");
@@ -76,6 +80,11 @@ public class Project extends AppLayout implements HasDynamicTitle, HasUrlParamet
             tagsLayout.getStyle().set("max-width", "30%");
             tagsLayout.setAlignItems(FlexComponent.Alignment.START);
             layout.add(tagsLayout);
+            Button openWebsite = new Button("Open project's website");
+            openWebsite.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
+                UI.getCurrent().getPage().setLocation(project.getWebsite());
+            });
+            layout.add(openWebsite);
             mainDiv.add(layout);
             setContent(mainDiv);
         } catch (NumberFormatException e) {
