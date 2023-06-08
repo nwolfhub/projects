@@ -36,7 +36,6 @@ public class ProjectsApplication {
 		}
 		Configurator.init();
 		cli.print("Config check passed. Entries parsed: " + Configurator.getEntriesAmount());
-		/*
 		cli.addTask("help", new InputTask() {
 			@Override
 			public void act(EasyCLI cli, String... params) {
@@ -82,11 +81,9 @@ public class ProjectsApplication {
 			}
 		});
 		cli.startListening();
-
-		 */
 		SpringApplication.run(ProjectsApplication.class, args);
 		context = new AnnotationConfigApplicationContext(Configurator.class);
-		// cli.print("CLI is ready! Type help");
+		cli.print("CLI is ready! Type help");
 	}
 
 }
