@@ -39,55 +39,6 @@ public class ProjectsApplication {
 		cli.print("Config check passed. Entries parsed: " + Configurator.getEntriesAmount());
 		SpringApplication.run(ProjectsApplication.class, args);
 		context = new AnnotationConfigApplicationContext(Configurator.class);
-		if(VaadinService.getCurrent()!=null && !VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode()) { //double check just because .getCurrent() is null. No idea why
-			//you know, this part should never be called. And by "should" I mean that it probably won't ever be. Whoever designed this framework must be a pure evil genius
-			cli.addTask("help", new InputTask() {
-				@Override
-				public void act(EasyCLI cli, String... params) {
-					cli.print("help - display this page\naddError *id* *text* - add a error to error list\nremoveError *id* - removes error from list\ngetError *id* - gets error info\ngetErrors - list all error ids", Defaults.boxedText);
-				}
-			});
-			cli.addTask("addError", new InputTask() {
-				@Override
-				public void act(EasyCLI cli, String... params) {
-					if (params.length < 2) {
-						cli.print("Usage: addError *id* *text*");
-					} else {
-						Error.addError(Integer.valueOf(params[0]), String.join(" ", Arrays.stream(params).toList().subList(1, params.length)));
-						cli.print("Error added");
-					}
-				}
-			});
-			cli.addTask("removeError", new InputTask() {
-				@Override
-				public void act(EasyCLI cli, String... params) {
-					if (params.length != 1) {
-						cli.print("Usage: removeError *id*");
-					} else {
-						Error.removeError(Integer.valueOf(params[0]));
-						cli.print("Error removed");
-					}
-				}
-			});
-			cli.addTask("getError", new InputTask() {
-				@Override
-				public void act(EasyCLI cli, String... params) {
-					if (params.length != 1) {
-						cli.print("Usage: getError *id*");
-					} else {
-						cli.print(Error.errors.get(Integer.valueOf(params[0])));
-					}
-				}
-			});
-			cli.addTask("getErrors", new InputTask() {
-				@Override
-				public void act(EasyCLI cli, String... params) {
-					cli.print(Error.errors.keySet().stream().toList());
-				}
-			});
-			cli.startListening();
-			cli.print("CLI is ready! Type help");
-		}
 	}
 
 }
