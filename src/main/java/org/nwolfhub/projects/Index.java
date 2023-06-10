@@ -50,6 +50,7 @@ public class Index extends AppLayout implements HasDynamicTitle{
                 grid.addColumn(Project::getShortDescription).setHeader("Description");
                 grid.setItems(projects);
                 grid.setItemDetailsRenderer(ProjectRenderer.createRenderer());
+                grid.setHeightFull();
                 setContent(grid);
             }
         } catch (Exception e) {

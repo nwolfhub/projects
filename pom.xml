@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.nwolfhub</groupId>
 	<artifactId>projects</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>projects</name>
 	<description>Project list</description>
 	<properties>
